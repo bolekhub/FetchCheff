@@ -8,9 +8,9 @@
 struct RecipeDTO: Codable {
     let cuisine, name: String
     let photoURLLarge, photoURLSmall: String
-    let sourceURL: String
+    let sourceURL: String?
     let uuid: String
-    let youtubeURL: String
+    let youtubeURL: String?
     
     enum CodingKeys: String, CodingKey {
         case cuisine, name
