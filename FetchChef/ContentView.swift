@@ -10,20 +10,18 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Recipe]
-
+    @Query(sort: \Recipe.name) private var items: [Recipe]
+    
+    
     var body: some View {
         NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
+            List(items) { item in
+                NavigationLink(destination: RecipeView(model: item)) {
+                    RecipeView(model: item)
                 }
-                .onDelete(perform: deleteItems)
             }
+            .navigationTitle("Recipes")
+            
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
@@ -36,14 +34,12 @@ struct ContentView: View {
             }
         } detail: {
             Text("Select an item")
+        }.onAppear {
+            
         }
     }
 
     private func addItem() {
-        withAnimation {
-            let newItem = Recipe(timestamp: Date())
-            modelContext.insert(newItem)
-        }
     }
 
     private func deleteItems(offsets: IndexSet) {
@@ -57,5 +53,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: Recipe.self, inMemory: true)
+        .modelContainer(FetchChefApp.previewContainer)
 }

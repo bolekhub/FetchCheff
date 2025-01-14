@@ -26,7 +26,12 @@ struct FetchChefApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    <#code#>
+                }
         }
         .modelContainer(sharedModelContainer)
+        
     }
 }
+
