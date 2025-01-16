@@ -14,10 +14,10 @@ extension Recipe {
     static var xample: Recipe {
         return Recipe(cuisine: "British",
                       name: "Apple & Blackberry Crumble",
-                      thumbnail: imageData ?? Data(),
+                      thumbnailURI: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/large.jpg",
                       itemID: "599344f4-3c5c-4cca-b914-2210e3b3312f",
                       videoUrl: "https://www.youtube.com/watch?v=4vhcOwVBDO4",
-                      image: imageData ?? Data()
+                      imageURI: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg"
         )}
 }
 
@@ -29,10 +29,10 @@ extension FetchChefApp {
             let container = try ModelContainer(for: Recipe.self, configurations: config)
             let dummyData = Recipe(cuisine: "Malaysian",
                                    name: "Apam Balik",
-                                   thumbnail: imageData ?? Data(),
+                                   thumbnailURI: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/large.jpg",
                                    itemID: "0c6ca6e7-e32a-4053-b824-1dbf749910d8",
                                    videoUrl: "https://www.youtube.com/watch?v=6R8ffRRJcrg",
-                                   image: imageData ?? Data())
+                                   imageURI: "https://d3jbb8n5wk0qxi.cloudfront.net/photos/b9ab0071-b281-4bee-b361-ec340d405320/small.jpg")
             container.mainContext.insert(dummyData)
             return container
         } catch {

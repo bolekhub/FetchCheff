@@ -14,9 +14,9 @@ public protocol InjectionKey {
     static var currentValue: Self.Value { get set }
 }
 
-// DI keys to register
+// DI objects to register
 private struct ImageCacheKey: InjectionKey {
-    static var currentValue: ImageCacheProtocol = ImageCache()
+    static var currentValue: ImageCacheProtocol = ImageCache.shared
 }
 
 extension InjectedValues {

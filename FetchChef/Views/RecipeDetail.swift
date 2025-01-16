@@ -9,20 +9,22 @@ import SwiftUI
 
 struct RecipeDetail: View {
     @State var model: Recipe
+    @State var image: UIImage = UIImage.placeholder
 
     var body: some View {
         VStack {
-            Image(uiImage: getImage() )
-                .frame(height: 300)
-                .scaledToFit()
+            Image(uiImage: image)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .aspectRatio(contentMode: .fit)
                 .cornerRadius(5)
                 .shadow(radius: 5)
-            Link("youtibe", destination: URL(string: model.videoUrl!)!)
+            Spacer()
+            Link(" 📺 Recipe Video ", destination: URL(string: model.videoUrl!)!)
         }
-    }
-    
-    func getImage() -> UIImage {
-        return  UIImage(data: model.image) ?? UIImage(named: "chef_placeholder") ?? UIImage()
+        .task {
+            guard let thumbURL = model.imageURL, let url = URL(string: thumbURL) else { return }
+            image = await UIImage.fromURL(url: url)
+        }
     }
 }
 

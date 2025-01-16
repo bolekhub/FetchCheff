@@ -10,48 +10,97 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Recipe.name) private var items: [Recipe]
     
+    @EnvironmentObject var viewModel: MainViewModel
     
+    @Query(sort: \Recipe.name) var items: [Recipe]
+    
+    @State private var selectedItem: Recipe?
+    
+    @State private var showingDetail = false
+    
+    init() {
+        _items = Query(
+            filter: #Predicate<Recipe> { recipe in
+                true
+            },
+            sort: \Recipe.name
+        )
+    }
+
     var body: some View {
         NavigationSplitView {
-            List(items) { item in
-                NavigationLink(destination: RecipeView(model: item)) {
-                    RecipeView(model: item)
-                }
-            }
-            .navigationTitle("Recipes")
-            
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+            ScrollView {
+                LazyVStack(alignment: .leading, pinnedViews: .sectionHeaders) {
+                    ForEach(filteredItems) { item in
+                        RecipeView(model: item)
+                            .onLongPressGesture(perform: {
+                                selectedItem = item
+                                showingDetail = true
+                            })
                     }
                 }
+                .sheet(isPresented: $showingDetail) {
+                    if let selectedItem = selectedItem {
+                        RecipeDetail(model: selectedItem)
+                    } else {
+                        Text(" ⚠️ ").font(.system(size: 40.0))
+                        Text(" Error")
+                            .font(.headline)
+                        Text("Unable to get recipe full size image")
+                            .font(.subheadline)
+                    }
+                }
+                .navigationTitle("Recipes")
             }
+            .refreshable(action: {
+                viewModel.selectedCategory = "All"
+                await retrieveData()
+            })
         } detail: {
             Text("Select an item")
-        }.onAppear {
+        }
+        .task {
+            await retrieveData()
+        }
+        
+        Menu("Filter", systemImage: "line.3.horizontal.decrease.circle") {
+            let uniques:[Category] = Set<String>(items.map{$0.cuisine})
+                .map{Category(name: $0)}
             
+            Picker("Filter", selection: $viewModel.selectedCategory) {
+                ForEach(uniques) { item in
+                    Text(item.name)
+                        .tag(item.name)
+                }
+            }
+        }
+    }
+    
+
+    private func retrieveData() async {
+        do {
+            let recipes = await viewModel.loadData()
+            recipes.forEach { recipe in
+                modelContext.insert(recipe)
+            }
+            try modelContext.save()
+        } catch {
+            debugPrint("Error saving model")
         }
     }
 
-    private func addItem() {
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
+    /// Dynamically filters items based on the selected category
+    private var filteredItems: [Recipe] {
+        if viewModel.selectedCategory == "All" {
+            return items
+        } else {
+            return items.filter { $0.cuisine == viewModel.selectedCategory }
         }
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView() //items: [Recipe.xample]
         .modelContainer(FetchChefApp.previewContainer)
 }

@@ -8,41 +8,34 @@
 import Foundation
 import SwiftData
 
-// This model suport the transformation of the urls ( thumbnail and fullsize image ) into their own data by calling create method will adapt Data to domain objects with data transformed. This may cause an overhead dealing with network calls if transformation are made in a batch and not used carefully. This is common an issue in projects where model and services separation of concern are not clear. 
+// This model suport the transformation of the urls
+
 @Model
 final class Recipe {
     @Attribute(.unique) var itemID: String
     var cuisine: String
     var name: String
-    var thumbnail: Data?
-    var image: Data
+    var thumbnailURL: String?
+    var imageURL: String?
     var videoUrl: String?
     
-    init(cuisine: String, name: String, thumbnail: Data?, itemID: String, videoUrl: String?, image: Data) {
+    init(cuisine: String, name: String, thumbnailURI: String?, itemID: String, videoUrl: String?, imageURI: String) {
         self.cuisine = cuisine
         self.name = name
-        self.thumbnail = thumbnail
-        self.image = image
+        self.thumbnailURL = thumbnailURI
+        self.imageURL = imageURI
         self.itemID = itemID
         self.videoUrl = videoUrl
     }
-    
-    static func create(from dto: RecipeDTO) async throws -> Recipe {
-        let thumbnailURL =  URL(string: dto.photoURLSmall)
-        let imageURL = URL(string: dto.photoURLLarge)
-        return try await RecipeAdapter.adapt(dto: dto)
+
+    convenience init(dto: RecipeDTO) {
+        self.init(cuisine: dto.cuisine,
+                  name: dto.name,
+                  thumbnailURI: dto.photoURLSmall,
+                  itemID: dto.uuid,
+                  videoUrl: dto.youtubeURL,
+                  imageURI: dto.photoURLLarge)
     }
-    
-    /*
-    convenience init(recipe: RecipeDTO) {
-        self.init(cuisine: recipe.cuisine,
-                  name: recipe.name,
-                  thumbnail: recipe.photoURLSmall,
-                  itemID: recipe.uuid,
-                  videoUrl: recipe.youtubeURL,
-                  image: recipe.photoURLLarge)
-    }
-     */
 }
 
 

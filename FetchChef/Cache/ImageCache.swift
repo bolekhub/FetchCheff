@@ -38,7 +38,25 @@ extension NSCache where KeyType == NSString, ObjectType == CacheEntryObject {
 
 
 protocol ImageCacheProtocol {
+    /// Return imageData, if not present in cache it will download from the url and then store in cache. If this las attemp is unsuccesfull return a placeholder
+    /// - Parameter url: url of the image
+    /// - Returns: Image as Data
+    ///
     func getImage(from url: URL) async throws -> Data
+    
+    /// Return image from the existing cache
+    /// - Parameter url: url of the image
+    /// - Returns: Image as Data
+    func getImage(from url: String) -> Data?
+    
+    /// set object into cache
+    /// - Parameters:
+    ///   - data: image as Data
+    ///   - url: key to be used, under this domain is url
+    func storeImage(data: Data, forUrl url: String)
+    
+    /// Clear all cache content
+    func clear()
 }
 
 final class ImageCache: ImageCacheProtocol {
@@ -61,4 +79,30 @@ final class ImageCache: ImageCacheProtocol {
         cache.setObject(data as NSData, forKey: cacheKey)
         return data
     }
+    
+    func getImage(from url: String) -> Data? {
+        if let cachedData = cache.object(forKey: url as NSString) {
+            return cachedData as Data
+        }
+        return nil
+    }
+    
+    func clear() {
+        cache.removeAllObjects()
+    }
+    
+    func storeImage(data: Data, forUrl url: String) {
+        cache.setObject(data as NSData, forKey: url as NSString)
+    }
 }
+
+
+// won't ship with production code. We need to see cache content for test.
+// at least during stage, dont blame me for this. Theres no other way to expose private vars.
+#if DEBUG
+extension ImageCache {
+    func getCache() -> NSCache<NSString, NSData> {
+        return self.cache
+    }
+}
+#endif

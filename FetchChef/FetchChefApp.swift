@@ -10,6 +10,8 @@ import SwiftData
 
 @main
 struct FetchChefApp: App {
+    var viewModel = MainViewModel()
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Recipe.self,
@@ -25,13 +27,10 @@ struct FetchChefApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .onAppear {
-                    <#code#>
-                }
+            ContentView() // [Recipe.xample]
+                .environmentObject(viewModel)
         }
         .modelContainer(sharedModelContainer)
-        
     }
 }
 
