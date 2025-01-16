@@ -8,8 +8,6 @@ import SwiftUI
 import UIKit
 
 struct RecipeView: View {
-    @Injected(\.imageCacheProvider) var imageCache: ImageCacheProtocol
-
     @State var model: Recipe
     @State var image: UIImage = UIImage.placeholder
     
