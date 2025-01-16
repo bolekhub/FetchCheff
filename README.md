@@ -27,6 +27,8 @@ maybe sum all hours would be about 2.5 days ? aprox.
  just an image and playing with async and task modifiers and other created a component **CachedAsyncImage**) 
  Though that its a great oportunity to showcase and test different approach that allows to finetune and open posibilities to create 
  a component. Using our caching system
+  - feature/recipe_api_model_v2_UI_V1 (SwiftUI Image )
+  - feature/recipe_api_model_v2_UI_V2  ( CachedAsyncImage )
     
 ### Weakest Part of the Project: What do you think is the weakest part of your project?
  Probably the test, i would like to have more time ( we all say the same everytime), and also its a challenge understand 
