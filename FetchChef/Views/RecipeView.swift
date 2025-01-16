@@ -15,8 +15,7 @@ struct RecipeView: View {
     
     var body: some View {
         HStack {
-            CachedAsyncImage(model: model)
-            //Image(uiImage: image)
+            Image(uiImage: image)
                 .scaledToFill()
                 .frame(width: 100, height: 100)
                 .cornerRadius(5)
@@ -30,8 +29,8 @@ struct RecipeView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }.task {
-            //guard let thumbURL = model.thumbnailURL, let url = URL(string: thumbURL) else { return }
-            //image = await UIImage.fromURL(url: url)
+            guard let thumbURL = model.thumbnailURL, let url = URL(string: thumbURL) else { return }
+            image = await UIImage.fromURL(url: url)
         }
         .padding(15)
         .border(.bar, width: 2.5)

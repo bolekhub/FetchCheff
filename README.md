@@ -1,5 +1,13 @@
 ### Summary: Include screen shots or a video of your app highlighting its features
 
+The app just start will load all resources, one resources are loaded next time will be faster because some images will be stored in cache. Keep touch as long press and the full size image is shown as modal. ( requirement for the app is single view, for me is not considered a navigation, its just same page and modern way to see detail).
+    The pull to refresh gesture will clear any selected cuisine type and load data again. At the bottom of the app theres a simple menu to filterout on cuisine type. Clearing selection is performed with the aforehead mentioned pull to refresh gesture. 
+
+![image1](FetchChef/Images/img1.png)
+![image2](FetchChef/Images/img2.png)
+![image3](FetchChef/Images/img3.png)
+
+
 ### Focus Areas: What specific areas of the project did you prioritize? Why did you choose to focus on these areas?
 
  - I Gave priority to performance, network and caching are high priority for me due to the fact that UI relies on this layer quality. I designed quite simple making use of modern async API wich is a huge lap on networking.
