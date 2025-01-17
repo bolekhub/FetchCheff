@@ -1,7 +1,8 @@
 ### Summary: Include screen shots or a video of your app highlighting its features
 
-The app just start will load all resources, one resources are loaded next time will be faster because some images will be stored in cache. Keep touch as long press and the full size image is shown as modal. ( requirement for the app is single view, for me is not considered a navigation, its just same page and modern way to see detail).
-    The pull to refresh gesture will clear any selected cuisine type and load data again. At the bottom of the app theres a simple menu to filterout on cuisine type. Clearing selection is performed with the aforehead mentioned pull to refresh gesture. 
+The app just starting will load all resources; once resources are loaded, next time will be faster because some images will be stored in cache. Long press to view the full-size image. (Requirement for the app is a single view; for me, it is not considered navigation; it's just the same page and a modern way to see detail.).
+
+    The pull-to-refresh gesture will clear any selected cuisine type and load data again. At the bottom of the app, there's a simple menu to filter out cuisine type. Clearing selection is performed with the aforementioned pull-to-refresh gesture. 
 
 ![image1](FetchChef/Images/img1.png)
 ![image2](FetchChef/Images/img2.png)
@@ -18,6 +19,7 @@ The app just start will load all resources, one resources are loaded next time w
 
 Mon,Jan 13, 10:52 
    - Approximately how long did you spend working on this project? How did you allocate your time?
+     
 I made during weekend of Jan 10,11 some hours each day. Then alternating when finish my current job a couple of hours after work, 
 maybe sum all hours would be about 2.5 days ? aprox.
 
@@ -31,6 +33,7 @@ maybe sum all hours would be about 2.5 days ? aprox.
   - feature/recipe_api_model_v2_UI_V2  ( CachedAsyncImage )
     
 ### Weakest Part of the Project: What do you think is the weakest part of your project?
+
  Probably the test, i would like to have more time ( we all say the same everytime), and also its a challenge understand 
  the design that Apple declare to use for swiftData modelcontext. I didnt find a correct approach that VM make use of it. 
 
@@ -38,4 +41,5 @@ maybe sum all hours would be about 2.5 days ? aprox.
 
 I would like to mention the use of a **DI** ( not my own creation ) in the article by Antoine van der Lee.
 Its a great component and i got inspired by the idea under the requirement that not 3rd party library
-https://www.avanderlee.com/swift/dependency-injection/ . It use property wrapers in all of their concept.
+https://www.avanderlee.com/swift/dependency-injection/ .
+It use property wrapers in all of their concept.
