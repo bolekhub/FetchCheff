@@ -5,7 +5,6 @@
 //  Created by Boris Chirino Fernández on 1/13/25.
 //
 import SwiftUI
-import UIKit
 
 struct RecipeView: View {
     @State var model: Recipe
