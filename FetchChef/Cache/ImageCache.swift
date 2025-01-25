@@ -61,6 +61,12 @@ protocol ImageCacheProtocol {
 
 final class ImageCache: ImageCacheProtocol {
     static let shared = ImageCache()
+    lazy var session: URLSession = {
+        let configuration = URLSessionConfiguration.ephemeral
+        let _session = URLSession(configuration: configuration)
+        return _session
+    }()
+    
     private lazy var cache: NSCache = {
         let _cache = NSCache<NSString, NSData>()
         _cache.totalCostLimit = 200
@@ -75,7 +81,7 @@ final class ImageCache: ImageCacheProtocol {
             return cachedData as Data
         }
         
-        let (data, _) = try await URLSession.shared.data(from: url)
+        let (data, _) = try await session.data(from: url)
         cache.setObject(data as NSData, forKey: cacheKey)
         return data
     }
